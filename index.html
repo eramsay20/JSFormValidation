@@ -1,13 +1,173 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<!-- Use this html file to verify your javascript library is functional you should not need to make
+any changes to this file for your Javascript library to work -->
+
+
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/Users/eramsay/Desktop/Github Files/JSFormValidation/style.css">
-    <title>Document</title>
-</head>
-<body>
+    <title>Validation Exercise</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- Location of user Validation Javascript -->
+    <script type="text/javascript" src="validate.js"></script>
+    <!-- Optional user Validation stylesheet -->
     
-    <script src="/Users/eramsay/Desktop/Github Files/JSFormValidation/form-validation.js"></script>
+</head>
+
+<body>
+    <br>
+    <div class="container">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">Form One</h3>
+            </div>
+            <div class="panel-body">
+                <div class="errors">
+                    <!-- Error messages can go here -->
+                </div>
+                <form>
+                    <div>
+                        <label for="requiredSize">Required Size 5 : </label>
+                        <input type="text" name="requiredSize" id="requiredSize" class="required_size" minlength="5" />
+                    </div>
+                    <div>
+                        <label for="numeric">Numeric : </label>
+                        <input type="text" name="numeric" id="numeric" class="numeric" />
+                    </div>
+                    <div>
+                        <label for="requiredSizeNumeric">Required Size 4 and Numeric : </label>
+                        <input type="text" name="requiredSizeNumeric" id="requiredSizeNumeric" class="required_size numeric" minlength="4" />
+                    </div>
+                    <div>
+                        <label for="required">Required : </label>
+                        <input type="text" name="required" id="required" class="required" />
+                    </div>
+                    <div>
+                        <label for="requiredRequiredSize">Required and Required Size 3: </label>
+                        <input type="text" name="requiredRequiredSize" id="requiredRequiredSize" class="required required_size" minlength="3" />
+                    </div>
+                    <div>
+                        <label for="requiredNumeric">Required and Numeric : </label>
+                        <input type="text" name="requiredNumeric" id="requiredNumeric" class="numeric required" />
+                    </div>
+                    
+                    <div>
+                        <label for="requiredNumericRequiredSize">Required and Numeric and Required Size 2: </label>
+                        <input type="text" name="requiredNumericRequiredSize" id="requiredNumericRequiredSize" class="numeric required required_size" minlength="2" />
+                    </div>
+                    <div>
+                        <input type="submit" name="submitBtn" value="Validate" />
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Form Two</h3>
+            </div>
+            <div class="panel-body">
+                <div class="errors">
+                    <!-- Error messages can go here -->
+                </div>
+                <form>
+                    <div>
+                        <label for="phone">Phone : </label>
+                        <input type="text" name="phone" id="phone" class="phone" />
+                    </div>
+                    <div>
+                        <label for="requiredPhone">Required and Phone : </label>
+                        <input type="text" name="requiredPhone" id="requiredPhone" class="phone required" />
+                    </div>
+                    <div>
+                        <label for="date">Date : </label>
+                        <input type="text" name="date" id="date" class="date" />
+                    </div>
+                    <div>
+                        <label for="requiredDate">Required and Date : </label>
+                        <input type="text" name="requiredDate" id="requiredDate" class="required date" />
+                    </div>
+                    <div>
+                        <input type="submit" name="submitBtn" value="Validate" />
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <h3 class="panel-title">Form Three</h3>
+            </div>
+            <div class="panel-body">
+                <div class="errors">
+                    <!-- Error messages can go here -->
+                </div>
+                <form>
+                    <div>
+                        <label for="alphabetic">Alphabetic : </label>
+                        <input type="text" name="alphabetic" id="alphabetic" class="alphabetic" />
+                    </div>
+                    <div>
+                        <label for="username">Username : </label>
+                        <input type="text" name="username" id="username" class="username" />
+                    </div>
+                    <div>
+                        <label for="requiredUsername">Required and Username : </label>
+                        <input type="text" name="requiredUsername" id="requiredUsername" class="required username" />
+                    </div>
+                    <div>
+                        <label for="requiredAlphabetic">Required and Alphabetic : </label>
+                        <input type="text" name="requiredAlphabetic" id="requiredAlphabetic" class="required alphabetic" />
+                    </div>
+                    <div>
+                        <label for="requiredSizeAlphabetic">Required Size 6 and Alphabetic : </label>
+                        <input type="text" name="requiredSizeAlphabetic" id="requiredSizeAlphabetic" class="required_size alphabetic" minlength="6" />
+                    </div>
+                    <div>
+                        <label for="requiredAlphabeticRequiredSize">Required and Alphabetic and Required Size 8: </label>
+                        <input type="text" name="requiredAlphabeticRequiredSize" id="requiredAlphabeticRequiredSize" class="required alphabetic required_size" minlength="8" />
+                    </div>
+                    <div>
+                        <input type="submit" name="submitBtn" value="Validate" />
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <h3 class="panel-title">Form Four</h3>
+            </div>
+            <div class="panel-body">
+                <div class="errors">
+                    <!-- Error messages can go here -->
+                </div>
+                <form>
+                    <div>
+                        <label for="password">Password : </label>
+                        <input type="text" name="password" id="password" class="password" />
+                    </div>
+                    <div>
+                        <label for="requiredPassword">Required and Password : </label>
+                        <input type="text" name="requiredPassword" id="requiredPassword" class="required password" />
+                    </div>
+                    <div>
+                        <input type="submit" name="submitBtn" value="Validate" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>
