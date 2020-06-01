@@ -87,3 +87,8 @@ Non Functional Requirements (30%):
 5. Camel case must be used for all JavaScript variable identifiers.
 6. All functions are named, including callbacks in the event handlers.
 7. All function names accurately describe the function */
+
+const formValidate = document.getElementsByName('submitBtn').addEventListener('click', () => {
+
+
+});
