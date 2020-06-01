@@ -87,18 +87,28 @@ Non Functional Requirements (30%):
 5. Camel case must be used for all JavaScript variable identifiers.
 6. All functions are named, including callbacks in the event handlers.
 7. All function names accurately describe the function */
+console.log(document.querySelectorAll('.alphabetic'));
+console.log(document.querySelectorAll('.alphabetic')[0]);
 
-document.querySelector('[name="errors"]').addEventListener('click', () => {
-    let errorDiv = document.querySelector('[name="errors"]');
-    let warningMessage = document.createElement('li'); // Create an <li> element
-        warningMessage.innerText = "THIS IS A WARNING"; // Insert text
-        errorDiv.appendChild(warningMessage);    
+document.querySelectorAll('input[name="submitBtn"]')[0].addEventListener('click',() => {
     
+    let textInputs = document.querySelectorAll('.alphabetic')[0];
+  
+    let errorDiv = document.querySelectorAll('div.errors')[0];
+  
+    let warningLi = document.createElement('li'); // Create an <li> element
+    
+    warningLi.textContent = "THIS IS A WARNING"; // Insert text
+    errorDiv.appendChild(warningLi);    
+
+
+});
+
 // "Required fields must have a value that is not empty or whitespace."
 // "Numeric fields must be a series of numbers."
 
 // "Required_size field lengths must exactly match the minlength attribute of that field."
-});
+
 
 
 
