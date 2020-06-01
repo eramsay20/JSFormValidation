@@ -88,7 +88,42 @@ Non Functional Requirements (30%):
 6. All functions are named, including callbacks in the event handlers.
 7. All function names accurately describe the function */
 
-const formValidate = document.getElementsByName('submitBtn').addEventListener('click', () => {
+document.querySelector('[name="errors"]').addEventListener('click', () => {
+    let errorDiv = document.querySelector('[name="errors"]');
+    let warningMessage = document.createElement('li'); // Create an <li> element
+        warningMessage.innerText = "THIS IS A WARNING"; // Insert text
+        errorDiv.appendChild(warningMessage);    
+    
+// "Required fields must have a value that is not empty or whitespace."
+// "Numeric fields must be a series of numbers."
 
-
+// "Required_size field lengths must exactly match the minlength attribute of that field."
 });
+
+
+
+
+//https://html.form.guide/snippets/javascript-form-validation-using-regular-expression.html
+
+/* function validate(){
+  var phoneNumber = document.getElementById('phone-number').value;
+  var postalCode = document.getElementById('postal-code').value;
+  var phoneRGEX = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/;
+  var postalRGEX = /^[A-Z]{1,2}[0-9]{1,2} ?[0-9][A-Z]{2}$/i;
+  var phoneResult = phoneRGEX.test(phoneNumber);
+  var postalResult = postalRGEX.test(postalCode);
+  if(phoneResult == false)
+  {
+    alert('Please enter a valid phone number');
+    return false;
+  }
+
+  if(postalResult == false)
+  {
+    alert('Please enter a valid postal number');
+    return false;
+  }
+
+  return true;
+}
+*/
