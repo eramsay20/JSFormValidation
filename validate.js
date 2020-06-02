@@ -90,6 +90,31 @@ Non Functional Requirements (30%):
 console.log(document.querySelectorAll('.alphabetic'));
 console.log(document.querySelectorAll('.alphabetic')[0]);
 
+document.querySelectorAll('input[name="submitBtn"]')[0].addEventListener('click', (event) => {
+    let submitInput = event.target;
+    let submitDiv = submitInput.parentNode;
+    let formDiv = submitDiv.parentNode;
+
+    let firstName = formDiv[0];
+    let lastName = formDiv[1];
+    let userName = formDiv[2];
+    let password = formDiv[3];
+    let zipCode = formDiv[4];
+    let employeeID = formDiv[5];
+    console.log(firstName.value);
+    console.log(lastName.value);
+    console.log(userName.value);
+    console.log(password.value);
+    console.log(zipCode.value);
+    console.log(employeeID.value);
+
+    debugger;
+
+
+   
+
+});
+
 document.querySelectorAll('input[name="submitBtn"]')[0].addEventListener('click',() => {
     
     let textInputs = document.querySelectorAll('.alphabetic')[0];
