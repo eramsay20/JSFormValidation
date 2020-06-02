@@ -89,6 +89,15 @@ Non Functional Requirements (30%):
 7. All function names accurately describe the function */
 
 //---------------------------- VALIDATION FUNCTIONS -----------------------------//
+function isEmptySpace (text) {
+    const regexEmpty = /^\s*$/; // used to evaluate whether space or tabs exist in the input
+    const inputValue = parseFloat(text); // pull input value
+        if (regexEmpty.test(text) == true || inputValue == ""){
+            return true;
+        }
+    return false;
+};
+
 function isValidAlphabetic (text) {
     const regexAplha = /^[a-zA-Z]+$/; // letters only, as many as wanted
     return regexAplha.test(text);
@@ -99,9 +108,14 @@ function isValidNumeric (numbers) {
     return regexNumeric.test(numbers); 
 };
 
-function isValidAlphaNumericMin5 (alphanumeric) {
+function isValidNumericMin5 (numMin5) {
+    const regexNumeric = /^[0-9]{5,}$/; // alphabetic or numbers only, 5 or more characters
+    return regexNumeric.test(numMin5); 
+};
+
+function isValidAlphaNumericMin5 (alphaNumMin5) {
     const regexNumeric = /^\w{5,}$/; // alphabetic or numbers only, 5 or more characters
-    return regexNumeric.test(alphanumeric); 
+    return regexNumeric.test(alphaNumMin5); 
 };
 
 function isValidZip (zip) {
@@ -122,26 +136,56 @@ function isValidPhone (phone) {
 //---------------------------- EVENT LISTENER FUNCTIONS -------------------------//
 
 const validateF1 = document.querySelectorAll('input[name="submitBtn"]')[0].addEventListener('click', (event) => {
-    let submitInput = event.target;
+    let submitInput = event.target;   // use these variables to transverse the DOM
     let submitDiv = submitInput.parentNode;
     let formDiv = submitDiv.parentNode; 
- 
-    let errorDivF1 = formDiv.previousElementSibling;
-    let requiredAllF1 = formDiv.querySelectorAll('.required');
-    let requiredAlphaF1 = formDiv.querySelectorAll('.required.alphabetic');
+    let errorDivF1 = formDiv.previousElementSibling; // form div is sibling to the error div
+   
+    let requiredF1 = formDiv.querySelectorAll('.required');
 
-    for (i=0; i<requiredAllF1.length; i++) {
-        if (requiredAllF1[i].classList.contains('alphabetic')) {
-                debugger;
-                let inputValue = requiredAllF1[i].value;
-                if (isValidAlphabetic (inputValue) != true) {
-                    let errorLi = document.createElement('li');
-                    errorLi.textContent = 'Required fields must have a value that is not empty or whitespace.';
-                    errorLi.style.display = "list-item";
-                    errorDivF1.appendChild(errorLi);
-                }
+    for (i=0; i<requiredF1.length; i++) { // validate all required inputs
+        debugger;
+        let inputValue = requiredF1[i].value;
+        let inputEl = requiredF1[i];
+        console.log(inputEl);
+        let minlen = requiredF1[i].getAttribute('minlength');
+        console.log(minlen);
+        
+        if (isEmptySpace(inputValue) == true) { // case 1, validate whether emptyspace
+            let errorLi = document.createElement('li');
+                errorLi.textContent = 'Required fields must have a value that is not empty or whitespace.';
+                errorLi.style.display = "list-item";
+                errorDivF1.appendChild(errorLi);
         }
-    }
+        else if (requiredF1[i].classList.contains('alphabetic')) { // case 2, validate alphabetic
+            if (isValidAlphabetic (inputValue) != true) {
+                let errorLi = document.createElement('li');
+                errorLi.textContent = 'Name fields must only use alphabetic characters.';
+                errorLi.style.display = "list-item";
+                errorDivF1.appendChild(errorLi);
+            }
+        }
+        else if (requiredF1[i].classList.contains('numeric')) { // case 2, validate alphabetic
+            if (isValidNumeric (inputValue) != true) {
+                let errorLi = document.createElement('li');
+                errorLi.textContent = 'Numeric fields must be a series of numbers.';
+                errorLi.style.display = "list-item";
+                errorDivF1.appendChild(errorLi);
+            }
+        }
+    }   
+        debugger;
+        let optionalZip = document.querySelector('#zip');
+        let zipValue = optionalZip.value;
+            console.log(zipValue);
+
+            if(zipValue != "" && isValidNumericMin5(zipValue) !=true) {
+                let errorLi = document.createElement('li');
+                errorLi.textContent = 'Zip Code must be a series of 5 or more numbers.';
+                errorLi.style.display = "list-item";
+                errorDivF1.appendChild(errorLi);
+            }
+
     event.preventDefault();
 });
 
