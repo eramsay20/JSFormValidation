@@ -87,32 +87,62 @@ Non Functional Requirements (30%):
 5. Camel case must be used for all JavaScript variable identifiers.
 6. All functions are named, including callbacks in the event handlers.
 7. All function names accurately describe the function */
-console.log(document.querySelectorAll('.alphabetic'));
-console.log(document.querySelectorAll('.alphabetic')[0]);
 
-document.querySelectorAll('input[name="submitBtn"]')[0].addEventListener('click', (event) => {
+//---------------------------- VALIDATION FUNCTIONS -----------------------------//
+function isValidAlphabetic (text) {
+    const regexAplha = /^[a-zA-Z]+$/; // letters only, as many as wanted
+    return regexAplha.test(text);
+};
+
+function isValidNumeric (numbers) {
+    const regexNumeric = /^[0-9]+$/; // numbers only, as many as wanted
+    return regexNumeric.test(numbers); 
+};
+
+function isValidAlphaNumericMin5 (alphanumeric) {
+    const regexNumeric = /^\w{5,}$/; // alphabetic or numbers only, 5 or more characters
+    return regexNumeric.test(alphanumeric); 
+};
+
+function isValidZip (zip) {
+    const regexZip = /^[0-9]{5,}$/; // 5 or more numbers only
+    return regexZip.test(zip);
+};
+
+function isValidPhone (phone) {
+    const regexPhone = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/; // google result, phone validation
+    return regexPhone.test(phone);
+};
+//---------------------------- VALIDATION FUNCTIONS -----------------------------//
+
+// window.onload() = function () {
+
+// };
+
+//---------------------------- EVENT LISTENER FUNCTIONS -------------------------//
+
+const validateF1 = document.querySelectorAll('input[name="submitBtn"]')[0].addEventListener('click', (event) => {
     let submitInput = event.target;
     let submitDiv = submitInput.parentNode;
-    let formDiv = submitDiv.parentNode;
+    let formDiv = submitDiv.parentNode; 
+ 
+    let errorDivF1 = formDiv.previousElementSibling;
+    let requiredAllF1 = formDiv.querySelectorAll('.required');
+    let requiredAlphaF1 = formDiv.querySelectorAll('.required.alphabetic');
 
-    let firstName = formDiv[0];
-    let lastName = formDiv[1];
-    let userName = formDiv[2];
-    let password = formDiv[3];
-    let zipCode = formDiv[4];
-    let employeeID = formDiv[5];
-    console.log(firstName.value);
-    console.log(lastName.value);
-    console.log(userName.value);
-    console.log(password.value);
-    console.log(zipCode.value);
-    console.log(employeeID.value);
-
-    debugger;
-
-
-   
-
+    for (i=0; i<requiredAllF1.length; i++) {
+        if (requiredAllF1[i].classList.contains('alphabetic')) {
+                debugger;
+                let inputValue = requiredAllF1[i].value;
+                if (isValidAlphabetic (inputValue) != true) {
+                    let errorLi = document.createElement('li');
+                    errorLi.textContent = 'Required fields must have a value that is not empty or whitespace.';
+                    errorLi.style.display = "list-item";
+                    errorDivF1.appendChild(errorLi);
+                }
+        }
+    }
+    event.preventDefault();
 });
 
 document.querySelectorAll('input[name="submitBtn"]')[0].addEventListener('click',() => {
@@ -133,12 +163,53 @@ document.querySelectorAll('input[name="submitBtn"]')[0].addEventListener('click'
 // "Numeric fields must be a series of numbers."
 
 // "Required_size field lengths must exactly match the minlength attribute of that field."
+/*
+const regexObject = /^words$/  >>> literal, use when you know what it should be
+const regexObject = new RegExp("^word$")   >>> use for dynamic input
+
+    test()
+    replace()
+    regex.test(testString) >>> returns true or false
+    string.replace(regex,replacementString)
+ 
+    const string1 = 'corndog'
+    string1.replace(regex, "hot") >>> returns "hotdog"
+
+    flags: i (case insensitive), g (global, multiple instances), m (multiline)
+        >>> add to last slash of regex
+        i.e.
+        'LION'.replace(\lion\i, 'mouse'); >>> mouse
+
+
+
+        function showOrHideTip(show, element) {
+  // show element when show is true, hide when false
+  if (show) {
+    element.style.display = "inherit";
+  } else {
+    element.style.display = "none";
+  }
+}
+
+function createListener(validator) {
+  return e => {
+    const text = e.target.value;
+    const valid = validator(text);
+    const showTip = text !== "" && !valid;
+    const tooltip = e.target.nextElementSibling;
+    showOrHideTip(showTip, tooltip);
+  };
+}
+*/
 
 
 
 
-
-//https://html.form.guide/snippets/javascript-form-validation-using-regular-expression.html
+//https://html.form.guide/snippets/javascript-form-validation-using-regular-expression.html\
+// REGEX: https://teamtreehouse.com/library/using-wildcard-characters-2
+// https://teamtreehouse.com/library/using-regular-expressions-in-javascript
+//https://teamtreehouse.com/library/validating-a-username
+//https://teamtreehouse.com/library/using-replace-with-captured-groups
 
 /* function validate(){
   var phoneNumber = document.getElementById('phone-number').value;
@@ -161,4 +232,29 @@ document.querySelectorAll('input[name="submitBtn"]')[0].addEventListener('click'
 
   return true;
 }
+
+
+
+
+   let firstName = formDiv[0];
+    let lastName = formDiv[1];
+    let userName = formDiv[2];
+    let password = formDiv[3];
+    let zipCode = formDiv[4];
+    let employeeID = formDiv[5];
+        
+        console.log(firstName.value);
+        console.log(lastName.value);
+        console.log(userName.value);
+        console.log(password.value);
+        console.log(zipCode.value);
+        console.log(employeeID.value);
+
+
+    var el = document.querySelector("#container > .menu > li > .submenu > li");
+    el.onclick = function what_to_do(){
+    var theText = this.innerHTML;
+    alert(theText);
+    }
+
 */
