@@ -141,19 +141,25 @@ const validateF1 = document.querySelectorAll('input[name="submitBtn"]')[0].addEv
     let formDiv = submitDiv.parentNode; 
     let errorDivF1 = formDiv.previousElementSibling; // form div is sibling to the error div
    
+    let allF1Inputs = formDiv.querySelectorAll('input');
+        console.log(allF1Inputs); // include the submit button input; array of 7 inputs for form 1
     let requiredF1 = formDiv.querySelectorAll('.required');
+    
+    let errorMsgArr = [];
 
     for (i=0; i<requiredF1.length; i++) { // validate all required inputs
         debugger;
         let inputValue = requiredF1[i].value;
-        let inputEl = requiredF1[i];
-        console.log(inputEl);
-        let minlen = requiredF1[i].getAttribute('minlength');
-        console.log(minlen);
+        // let inputEl = requiredF1[i];
+    
+        //     console.log(inputEl);
+        // let minlen = requiredF1[i].getAttribute('minlength');
+        //     console.log(minlen);
         
         if (isEmptySpace(inputValue) == true) { // case 1, validate whether emptyspace
             let errorLi = document.createElement('li');
                 errorLi.textContent = 'Required fields must have a value that is not empty or whitespace.';
+                errorMsgArr[i]=errorLi.textContent;
                 errorLi.style.display = "list-item";
                 errorDivF1.appendChild(errorLi);
         }
@@ -161,6 +167,7 @@ const validateF1 = document.querySelectorAll('input[name="submitBtn"]')[0].addEv
             if (isValidAlphabetic (inputValue) != true) {
                 let errorLi = document.createElement('li');
                 errorLi.textContent = 'Name fields must only use alphabetic characters.';
+                errorMsgArr[i]=errorLi.textContent;
                 errorLi.style.display = "list-item";
                 errorDivF1.appendChild(errorLi);
             }
@@ -169,39 +176,44 @@ const validateF1 = document.querySelectorAll('input[name="submitBtn"]')[0].addEv
             if (isValidNumeric (inputValue) != true) {
                 let errorLi = document.createElement('li');
                 errorLi.textContent = 'Numeric fields must be a series of numbers.';
+                errorMsgArr[i]=errorLi.textContent;
                 errorLi.style.display = "list-item";
                 errorDivF1.appendChild(errorLi);
             }
         }
-    }   
-        debugger;
-        let optionalZip = document.querySelector('#zip');
-        let zipValue = optionalZip.value;
-            console.log(zipValue);
+        else {
 
-            if(zipValue != "" && isValidNumericMin5(zipValue) !=true) {
-                let errorLi = document.createElement('li');
-                errorLi.textContent = 'Zip Code must be a series of 5 or more numbers.';
-                errorLi.style.display = "list-item";
-                errorDivF1.appendChild(errorLi);
-            }
+        }
+    }   
+    debugger;
+    let optionalZip = document.querySelector('#zip');
+    let zipValue = optionalZip.value;
+        console.log(zipValue);
+
+        if(zipValue != "" && isValidNumericMin5(zipValue) !=true) {
+            let errorLi = document.createElement('li');
+            errorLi.textContent = 'Zip Code must be a series of 5 or more numbers.';
+            errorMsgArr[i]=errorLi.textContent;
+            errorLi.style.display = "list-item";
+            errorDivF1.appendChild(errorLi);
+        }
 
     event.preventDefault();
 });
 
-document.querySelectorAll('input[name="submitBtn"]')[0].addEventListener('click',() => {
+// document.querySelectorAll('input[name="submitBtn"]')[0].addEventListener('click',() => {
     
-    let textInputs = document.querySelectorAll('.alphabetic')[0];
+//     let textInputs = document.querySelectorAll('.alphabetic')[0];
   
-    let errorDiv = document.querySelectorAll('div.errors')[0];
+//     let errorDiv = document.querySelectorAll('div.errors')[0];
   
-    let warningLi = document.createElement('li'); // Create an <li> element
+//     let warningLi = document.createElement('li'); // Create an <li> element
     
-    warningLi.textContent = "THIS IS A WARNING"; // Insert text
-    errorDiv.appendChild(warningLi);    
+//     warningLi.textContent = "THIS IS A WARNING"; // Insert text
+//     errorDiv.appendChild(warningLi);    
 
 
-});
+// });
 
 // "Required fields must have a value that is not empty or whitespace."
 // "Numeric fields must be a series of numbers."
