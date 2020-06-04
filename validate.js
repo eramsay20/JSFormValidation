@@ -206,12 +206,78 @@ const validateF1 = document.querySelectorAll('input[name="submitBtn"]')[0].addEv
     //------------------------ FORM 1 VALIDATION (END) -----------------------//
     //------------------------------------------------------------------------//
 
+//------------------------------------------------------------------------//
+//------------------------ FORM 2 VALIDATION (START) ---------------------//
+//------------------------------------------------------------------------//
 
+    const validateF1 = document.querySelectorAll('input[name="submitBtn"]')[1].addEventListener('click', (event) => {
+        let submitInput = event.target;   // use these variables to transverse the DOM
+        let submitDiv = submitInput.parentNode;
+        let formDiv = submitDiv.parentNode; 
+        let errorDivF1 = formDiv.previousElementSibling; // location to display error messages
+        let allF1Inputs = formDiv.querySelectorAll('input'); // input array used to cycle through each input
+    
+        while (errorDivF1.lastElementChild) {
+            errorDivF1 .removeChild(errorDivF1.lastElementChild);
+          }
+    
+        for (i=0; i<(allF1Inputs.length); i++) { // validate all inputs
+            let inputValue = allF1Inputs[i].value;
+    
+            // case 1, validate required - empty
+            if (allF1Inputs[i].classList.contains('required') 
+                && allF1Inputs[i].classList.contains('required_list')==false 
+                && isEmptySpace(inputValue) == true) {          
+                
+                let errorLi = document.createElement('li');
+                errorLi.textContent = 'Required fields must have a value that is not empty or whitespace.';
+                errorLi.style.display = "list-item";
+                errorDivF1.appendChild(errorLi);
+                break;}
+    
+            // case 2, validate required - alphabetic
+            else if (allF1Inputs[i].classList.contains('required')
+                && allF1Inputs[i].classList.contains('alphabetic')) { 
+                
+                if (isValidAlphabetic(inputValue) != true) {
+                let errorLi = document.createElement('li');
+                errorLi.textContent = 'Name fields must only use alphabetic characters.';
+                errorLi.style.display = "list-item";
+                errorDivF1.appendChild(errorLi);
+                break;
+                }
+            }
+            // case 3, validate required - numeric
+            else if (allF1Inputs[i].classList.contains('required') 
+                && allF1Inputs[i].classList.contains('numeric')) { 
+                
+                if (isValidNumeric(inputValue) != true) {
+                let errorLi = document.createElement('li');
+                errorLi.textContent = 'Numeric fields must be a series of numbers.';
+                errorLi.style.display = "list-item";
+                errorDivF1.appendChild(errorLi);
+                break;
+                }
+            }
+            // case 4, validate only if valued provided; required-size 5+ - numeric; 
+            else if (allF1Inputs[i].classList.contains('required_size') 
+                && allF1Inputs[i].classList.contains('numeric')) { 
+                
+                if (allF1Inputs[i].value != '' && isValidNumericMin5(inputValue) !== true) {
+                let errorLi = document.createElement('li');
+                errorLi.textContent = 'Zip Code must be a series of 5 or more numbers.';
+                errorLi.style.display = "list-item";
+                errorDivF1.appendChild(errorLi);
+                break;
+                }
+            }
+        }   
+        event.preventDefault(); // keeps the submit input from refreshing the page and clearing the error messages
+    });
 
-
-
-
-
+    //------------------------------------------------------------------------//
+    //------------------------ FORM 2 VALIDATION (END) -----------------------//
+    //------------------------------------------------------------------------//
 
 
 
