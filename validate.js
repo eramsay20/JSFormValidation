@@ -88,7 +88,10 @@ Non Functional Requirements (30%):
 6. All functions are named, including callbacks in the event handlers.
 7. All function names accurately describe the function */
 
-//---------------------------- VALIDATION FUNCTIONS -----------------------------//
+//------------------------------------------------------------------------//
+//--------------- REGEX VALIDATION FUNCTIONS (START) ---------------------//
+//------------------------------------------------------------------------//
+
 function isEmptySpace (text) {
     const regexEmpty = /^\s*$/; // used to evaluate whether space or tabs exist in the input
     const inputValue = parseFloat(text); // pull input value
@@ -127,63 +130,42 @@ function isValidPhone (phone) {
     const regexPhone = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/; // google result, phone validation
     return regexPhone.test(phone);
 };
-//---------------------------- VALIDATION FUNCTIONS -----------------------------//
+    //------------------------------------------------------------------------//
+    //--------------- REGEX VALIDATION FUNCTIONS (END) -----------------------//
+    //------------------------------------------------------------------------//
 
-// window.onload() = function () {
 
-// };
-
-//---------------------------- EVENT LISTENER FUNCTIONS -------------------------//
+//------------------------------------------------------------------------//
+//------------------------ FORM 1 VALIDATION (START) ---------------------//
+//------------------------------------------------------------------------//
 
 const validateF1 = document.querySelectorAll('input[name="submitBtn"]')[0].addEventListener('click', (event) => {
     let submitInput = event.target;   // use these variables to transverse the DOM
     let submitDiv = submitInput.parentNode;
     let formDiv = submitDiv.parentNode; 
-    let errorDivF1 = formDiv.previousElementSibling; // form div is sibling to the error div
-    // console.log(errorDivF1);
-    
-    let allF1Inputs = formDiv.querySelectorAll('input');
-        // console.log(allF1Inputs); // include the submit button input; array of 7 inputs for form 1
-    // let allF1Inputs = formDiv.querySelectorAll('.required');
-    
-    let errorMsgArr = Array(allF1Inputs.length).fill(0);
-    // console.log(errorMsgArr);
+    let errorDivF1 = formDiv.previousElementSibling; // location to display error messages
+    let allF1Inputs = formDiv.querySelectorAll('input'); // input array used to cycle through each input
+
+    let errorMsgArr = Array(allF1Inputs.length).fill(0); // error message array to store and check whether errors already displayed
+
     while (errorDivF1.lastElementChild) {
         errorDivF1 .removeChild(errorDivF1.lastElementChild);
       }
 
     for (i=0; i<(allF1Inputs.length); i++) { // validate all required inputs
-        debugger;
+      
         let inputValue = allF1Inputs[i].value;
-        // console.log(errorDivF1);
-        // let inputEl = allF1Inputs[i];
-    
-        //     console.log(inputEl);
-        // let minlen = allF1Inputs[i].getAttribute('minlength');
-        //     console.log(minlen);
         
         if (allF1Inputs[i].classList.contains('required') && allF1Inputs[i].classList.contains('required_list')==false && isEmptySpace(inputValue) == true) { // case 1, validate whether emptyspace
-                // console.log(errorMsgArr[i]);  
 
-                if(errorMsgArr[i]==0){ // WHY DOES THIS RETURN FALSE!!??
+                if(errorMsgArr[i]==0){ 
                     let errorLi = document.createElement('li');
                     errorLi.textContent = 'Required fields must have a value that is not empty or whitespace.';
                     errorMsgArr[i]=errorLi.textContent;
                     errorLi.style.display = "list-item";
                     errorDivF1.appendChild(errorLi);
                     break;}
-                
-                // else {
-                //     debugger;
-                //     console.log(errorDivF1);
-                //     removeNodeA = errorDivF1.childNode[i];
-                //     console.log(removeNodeA);
-                //     debugger;
-                //     errorDivF1.removeChild(errorDivF1.firstElementChild);
-                //     errorMsgArr[i]==0;
-                // }
             }
-                // if(errorMsgArr[i]!==0&& isEmptySpace(inputValue) !== true
         else if (allF1Inputs[i].classList.contains('required') && allF1Inputs[i].classList.contains('alphabetic')) { // case 2, validate alphabetic
             if (errorMsgArr[i]==0 && isValidAlphabetic(inputValue) != true) {
                 let errorLi = document.createElement('li');
@@ -193,10 +175,6 @@ const validateF1 = document.querySelectorAll('input[name="submitBtn"]')[0].addEv
                 errorDivF1.appendChild(errorLi);
                 break;
             }
-            // else if (errorMsgArr[i]!=0 && isValidAlphabetic(inputValue) == true){
-            //     errorMsgArr[i]==0;
-            //     errorDivF1.removeChild(errorLi);
-            // }
         }
         else if (allF1Inputs[i].classList.contains('required') && allF1Inputs[i].classList.contains('numeric')) { // case 2, validate alphabetic
             if (errorMsgArr[i]==0 && isValidNumeric(inputValue) != true) {
@@ -207,10 +185,6 @@ const validateF1 = document.querySelectorAll('input[name="submitBtn"]')[0].addEv
                 errorDivF1.appendChild(errorLi);
                 break;
             }
-            // else if (errorMsgArr[i]!=0 && isValidNumeric(inputValue) == true){
-            //     errorMsgArr[i]==0;
-            //     errorDivF1.removeChild(errorLi);
-            // }
         }
         else if (allF1Inputs[i].classList.contains('required_size') && allF1Inputs[i].classList.contains('numeric')) { // case 2, validate alphabetic
             if (allF1Inputs[i].value != '' && isValidNumericMin5(inputValue) !== true) {
@@ -221,30 +195,13 @@ const validateF1 = document.querySelectorAll('input[name="submitBtn"]')[0].addEv
                 errorDivF1.appendChild(errorLi);
                 break;
             }
-            // else if (errorMsgArr[i]!=0 && isValidNumericMin5(inputValue) == true){
-            //     errorMsgArr[i]==0;
-            //     errorDivF1.removeChild(errorLi);
-            // }
-            
         }
     }   
-    // console.log(errorMsgArr);
     event.preventDefault();
 });
-
-// document.querySelectorAll('input[name="submitBtn"]')[0].addEventListener('click',() => {
-    
-//     let textInputs = document.querySelectorAll('.alphabetic')[0];
-  
-//     let errorDiv = document.querySelectorAll('div.errors')[0];
-  
-//     let warningLi = document.createElement('li'); // Create an <li> element
-    
-//     warningLi.textContent = "THIS IS A WARNING"; // Insert text
-//     errorDiv.appendChild(warningLi);    
-
-
-// });
+    //------------------------------------------------------------------------//
+    //------------------------ FORM 1 VALIDATION (END) -----------------------//
+    //------------------------------------------------------------------------//
 
 // "Required fields must have a value that is not empty or whitespace."
 // "Numeric fields must be a series of numbers."
