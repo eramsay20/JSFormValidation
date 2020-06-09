@@ -236,10 +236,12 @@ const validateF1 = document.querySelectorAll('input[name="submitBtn"]')[0].addEv
             if(isEmptySpace(inputValue) == false 
             && errorDivF1.lastElementChild == null) { 
                 let requiredLength = parseFloat(inputValueParent.getAttribute('minlength'));
-                
+                console.log(requiredLength);
+                console.log(isNaN(requiredLength));
+
                 // check if 'minlength' attribute exists and validate exact match in length
-                if (requiredLength !== "" 
-                && isValidSize(inputValue, requiredLength) == false) {
+                if (isNaN(requiredLength) == false &&
+                isValidSize(inputValue, requiredLength) == false) {
                     createErrorLi(msgSize);
                     break;
                 }
