@@ -142,9 +142,11 @@ function isValidPhone (phone) {
 //------------------------ FORM 1 VALIDATION (START) ---------------------//
 //------------------------------------------------------------------------//
 
-const validateF1 = document.querySelectorAll('input[name="submitBtn"]')[1].addEventListener('click', (event) => {
-    let submitInput = event.target;   // use these variables to transverse the DOM
-    let submitDiv = submitInput.parentNode;
+const validateF1 = document.addEventListener('click', (event) => {
+    let clickTarget = event.target;
+    console.log(clickTarget.name);
+    if(clickTarget.name == "submitBtn"){
+    let submitDiv = clickTarget.parentNode; // use these variables to transverse the DOM
     let formDiv = submitDiv.parentNode; 
     let errorDivF1 = formDiv.previousElementSibling; // location to display error messages
     // let allRequired = formDiv.querySelectorAll('input'); // input array used to cycle through each input
@@ -327,7 +329,7 @@ const validateF1 = document.querySelectorAll('input[name="submitBtn"]')[1].addEv
     //     }
     // }; 
     validateRequired();
-    validateNonRequired();
+    validateNonRequired();}
     event.preventDefault(); // keeps the submit input from refreshing the page and clearing the error messages
 });
     //------------------------------------------------------------------------//
