@@ -127,6 +127,7 @@ function isValidPassword (password) {
 };
 //https://stackoverflow.com/questions/14850553/javascript-regex-for-password-containing-at-least-8-characters-1-number-1-uppe/14850765
 //https://www.w3resource.com/javascript/form/password-validation.php   
+
 function isValidZip (zip) {
     const regexZip = /^[0-9]{5,}$/; // 5 or more numbers only
     return regexZip.test(zip);
@@ -145,23 +146,21 @@ function isValidPhone (phone) {
     //------------------------------------------------------------------------//
 
 //------------------------------------------------------------------------//
-//------------------------ FORM 1 VALIDATION (START) ---------------------//
+//------------------------ FORM VALIDATION (START) -----------------------//
 //------------------------------------------------------------------------//
 
 const validateF1 = document.addEventListener('click', (event) => {
-    let clickTarget = event.target;
-    console.log(clickTarget.name);
-    if(clickTarget.name == "submitBtn"){
+    let clickTarget = event.target; // locate the target of click function
+    if(clickTarget.name == "submitBtn"){ // if click on submitBtn input... proceed to validation
+
     let submitDiv = clickTarget.parentNode; // use these variables to transverse the DOM
-    let formDiv = submitDiv.parentNode; 
-    let errorDivF1 = formDiv.previousElementSibling; // location to display error messages
-    // let allRequired = formDiv.querySelectorAll('input'); // input array used to cycle through each input
+    let formDiv = submitDiv.parentNode; // use these variables to transverse the DOM
 
-    let allRequired = formDiv.getElementsByClassName('required');
-    console.log(allRequired);
-    let allNonRequired = formDiv.querySelectorAll('input:not(.required)');
-    console.log(allNonRequired);
+    let errorDivF1 = formDiv.previousElementSibling; // location to display error messages, just before form div
+    let allRequired = formDiv.getElementsByClassName('required'); // all required fields
+    let allNonRequired = formDiv.querySelectorAll('input:not(.required)'); // all non-required fields
 
+    /*---------------------------------MESSAGE BANK---------------------------------------*/
     const msgEmpty = "Required fields must have a value that is not empty or whitespace.";
     const msgAlphabetic = 'Alphabetic fields must only use alphabetic characters.';
     const msgNumeric = 'Numeric fields must be a series of numbers.';
@@ -169,51 +168,45 @@ const validateF1 = document.addEventListener('click', (event) => {
     const msgUser = "Username fields must contain only alphanumeric characters.";
     const msgUserLength = "Username fields must contain at least 8 characters.";
     const msgPassword = "Password fields must contain one or more of each of the following types: uppercase letters, lowercase letters, numbers, special characters.";
-    const msgDate = "Date fields must match the format of XX/XX/XXXX."; // not yet used
+    const msgDate = "Date fields must match the format of XX/XX/XXXX."; 
     const msgPhone = "Phone fields must match the format of XXX-XXX-XXXX.";
+    /*---------------------------------MESSAGE BANK---------------------------------------*/
 
-    const createErrorLi = function (msgType) { // create error message upon failed validation
+    const createErrorLi = function (msgType) { // function to create and insert error message upon failed validation event
         let errorLi = document.createElement('li');
         errorLi.style.display = "list-item";
         errorLi.textContent = msgType;
         errorDivF1.appendChild(errorLi);
     };
     
-    while (errorDivF1.lastElementChild) { // if error message div has content, remove it prior to re-evaluating validation
+    while (errorDivF1.lastElementChild) { // if error message div has content, remove it prior to re-validation
         errorDivF1.removeChild(errorDivF1.lastElementChild);
     }
 
-    const validateRequired = function () { /// REFACTORING FUNCTION INTO TWO PARTS; REQUIRED vs NON-REQUIRED ********
-        debugger;
-        for (i=0; i<(allRequired.length); i++) { // loop through all inputs for the given form
+    const validateRequired = function () { // function to validate all required inputs first
+        for (i=0; i<(allRequired.length); i++) { // loop through all required inputs for the given form
             let inputValue = allRequired[i].value;
-            console.log(inputValue);
             let inputValueParent = allRequired[i];
-            console.log(inputValueParent);
             let requiredLength = parseFloat(inputValueParent.getAttribute('minlength'));
-            console.log(requiredLength);
-          
 
             // case 1, empty
             if(isEmptySpace(inputValue) == true) {          
-                createErrorLi(msgEmpty);         
-                break;
+                    createErrorLi(msgEmpty);         
+                    break;
             }
 
             // case 2, alphabetic
             else if (allRequired[i].classList.contains('alphabetic')
                 && isValidAlphabetic(inputValue) == false) { 
-        
-                createErrorLi(msgAlphabetic); 
-                break;
+                    createErrorLi(msgAlphabetic); 
+                    break;
             }
 
             // case 3, numeric
             else if (allRequired[i].classList.contains('numeric')
                 && isValidNumeric(inputValue) == false) { 
-                
-                createErrorLi(msgNumeric);
-                break;
+                    createErrorLi(msgNumeric);
+                    break;
             }
              // case 4, username === alphanumeric
              else if (allRequired[i].classList.contains('username')) {
@@ -228,62 +221,52 @@ const validateF1 = document.addEventListener('click', (event) => {
             }
              // case 5, password
              else if (allRequired[i].classList.contains('password')
-             && isValidPassword(inputValue) == false) { 
-             
-             createErrorLi(msgPassword);
-             break;
+                && isValidPassword(inputValue) == false) { 
+                    createErrorLi(msgPassword);
+                    break;
              }
             // case 6, date
             else if (allRequired[i].classList.contains('date')
-            && isValidDate(inputValue) == false) { 
-            
-            createErrorLi(msgDate);
-            break;
+                && isValidDate(inputValue) == false) { 
+                    createErrorLi(msgDate);
+                    break;
             }
             // case 7, phone
             else if (allRequired[i].classList.contains('phone')
             && isValidPhone(inputValue) == false) { 
-            
-            createErrorLi(msgPhone);
-            break;
+                createErrorLi(msgPhone);
+                break;
             }
             // case 8, minlength && required
-            else if (isNaN(requiredLength) == false &&
-            isValidSize(inputValue, requiredLength) == false) {
-                createErrorLi(msgSize);
-                break;
+            else if (isNaN(requiredLength) == false 
+                && isValidSize(inputValue, requiredLength) == false) {
+                    createErrorLi(msgSize);
+                    break;
             }
         }
     }; 
     const validateNonRequired = function () { /// REFACTORING FUNCTION INTO TWO PARTS; REQUIRED vs NON-REQUIRED ********
-        debugger;
         for (i=0; i<(allNonRequired.length); i++) { // loop through all inputs for the given form
             let inputValue = allNonRequired[i].value;
-            console.log(inputValue);
             let inputValueParent = allNonRequired[i];
-            console.log(inputValueParent);
             let requiredLength = parseFloat(inputValueParent.getAttribute('minlength'));
-            console.log(requiredLength);
 
-            // check if other errors resolved first before validating non-required
-            if (errorDivF1.lastElementChild !== null){  
+            if (errorDivF1.lastElementChild !== null){  // check if other errors resolved first before validating non-required
                 break;
             }   
 
             // case 1, alphabetic
             else if (inputValueParent.classList.contains('alphabetic')
                 && isValidAlphabetic(inputValue) == false) { 
-        
-                createErrorLi(msgAlphabetic); 
-                break;
+                    createErrorLi(msgAlphabetic); 
+                    break;
             }
 
             // case 2, numeric
             else if (inputValueParent.classList.contains('numeric')
                 && isValidNumeric(inputValue) == false) { 
-                
-                createErrorLi(msgNumeric);
-                break;
+                    createErrorLi(msgNumeric);
+                    break;
             }
             // case 3, username === alphanumeric
             else if (inputValueParent.classList.contains('username')) {
@@ -298,253 +281,35 @@ const validateF1 = document.addEventListener('click', (event) => {
             }
              // case 4, password
              else if (inputValueParent.classList.contains('password')
-             && isValidPassword(inputValue) == false) { 
-             
-             createErrorLi(msgPassword);
-             break;
+                && isValidPassword(inputValue) == false) { 
+                    createErrorLi(msgPassword);
+                    break;
              }
             // case 5, date
             else if (inputValueParent.classList.contains('date')
-            && isValidDate(inputValue) == false) { 
-            
-            createErrorLi(msgDate);
-            break;
+                && isValidDate(inputValue) == false) {
+                    createErrorLi(msgDate);
+                    break;
             }
             // case 6, phone
             else if (inputValueParent.classList.contains('phone')
-            && isValidPhone(inputValue) == false) { 
-            
-            createErrorLi(msgPhone);
-            break;
+                && isValidPhone(inputValue) == false) { 
+                    createErrorLi(msgPhone);
+                    break;
             }
             // case 7, minlength
-            else if (isNaN(requiredLength) == false &&
-            isValidSize(inputValue, requiredLength) == false) {
-                createErrorLi(msgSize);
-                break;
+            else if (isNaN(requiredLength) == false 
+                && isValidSize(inputValue, requiredLength) == false) {
+                    createErrorLi(msgSize);
+                    break;
             }
         }
     }; 
-
-    // const validateRequiredLength = function () { 
-    //     debugger;
-    //     for (i=0; i<(allNonRequired.length); i++) { // loop through all inputs for the given form
-    //         let inputValue = allNonRequired[i].value;
-    //         let inputValueParent = allNonRequired[i]; 
-    //         let requiredLength = parseFloat(inputValueParent.getAttribute('minlength'));         
-            
-    //         // if not empty... 
-    //         if(isEmptySpace(inputValue) == false 
-    //         && errorDivF1.lastElementChild == null) { 
-    //             console.log(requiredLength);
-    //             console.log(isNaN(requiredLength));
-
-    //             // check if 'minlength' attribute exists and validate exact match in length
-    //             if (isNaN(requiredLength) == false &&
-    //             isValidSize(inputValue, requiredLength) == false) {
-    //                 createErrorLi(msgSize);
-    //                 break;
-    //             }
-    //             // && allRequired[i].classList.contains('required_list')==false 
-    //         }
-    //     }
-    // }; 
-    validateRequired();
-    validateNonRequired();}
+    validateRequired(); // validate required inputs
+    validateNonRequired(); // validate non-required inputs
+  } // closes if() condition for submitBtn
     event.preventDefault(); // keeps the submit input from refreshing the page and clearing the error messages
 });
     //------------------------------------------------------------------------//
-    //------------------------ FORM 1 VALIDATION (END) -----------------------//
+    //------------------------ FORM VALIDATION (END) -------------------------//
     //------------------------------------------------------------------------//
-
-//------------------------------------------------------------------------//
-//------------------------ FORM 2 VALIDATION (START) ---------------------//
-//------------------------------------------------------------------------//
-
-    // const validateF1 = document.querySelectorAll('input[name="submitBtn"]')[1].addEventListener('click', (event) => {
-    //     let submitInput = event.target;   // use these variables to transverse the DOM
-    //     let submitDiv = submitInput.parentNode;
-    //     let formDiv = submitDiv.parentNode; 
-    //     let errorDivF1 = formDiv.previousElementSibling; // location to display error messages
-    //     let allRequired = formDiv.querySelectorAll('input'); // input array used to cycle through each input
-    
-    //     while (errorDivF1.lastElementChild) {
-    //         errorDivF1 .removeChild(errorDivF1.lastElementChild);
-    //       }
-    
-    //     for (i=0; i<(allRequired.length); i++) { // validate all inputs
-    //         let inputValue = allRequired[i].value;
-    
-    //         // case 1, validate required - empty
-    //         if (allRequired[i].classList.contains('required') 
-    //             && allRequired[i].classList.contains('required_list')==false 
-    //             && isEmptySpace(inputValue) == true) {          
-                
-    //             let errorLi = document.createElement('li');
-    //             errorLi.textContent = 'Required fields must have a value that is not empty or whitespace.';
-    //             errorLi.style.display = "list-item";
-    //             errorDivF1.appendChild(errorLi);
-    //             break;}
-    
-    //         // case 2, validate required - alphabetic
-    //         else if (allRequired[i].classList.contains('required')
-    //             && allRequired[i].classList.contains('alphabetic')) { 
-                
-    //             if (isValidAlphabetic(inputValue) != true) {
-    //             let errorLi = document.createElement('li');
-    //             errorLi.textContent = 'Name fields must only use alphabetic characters.';
-    //             errorLi.style.display = "list-item";
-    //             errorDivF1.appendChild(errorLi);
-    //             break;
-    //             }
-    //         }
-    //         // case 3, validate required - numeric
-    //         else if (allRequired[i].classList.contains('required') 
-    //             && allRequired[i].classList.contains('numeric')) { 
-                
-    //             if (isValidNumeric(inputValue) != true) {
-    //             let errorLi = document.createElement('li');
-    //             errorLi.textContent = 'Numeric fields must be a series of numbers.';
-    //             errorLi.style.display = "list-item";
-    //             errorDivF1.appendChild(errorLi);
-    //             break;
-    //             }
-    //         }
-    //         // case 4, validate only if valued provided; required-size 5+ - numeric; 
-    //         else if (allRequired[i].classList.contains('required_size') 
-    //             && allRequired[i].classList.contains('numeric')) { 
-                
-    //             if (allRequired[i].value != '' && isValidNumericMin5(inputValue) !== true) {
-    //             let errorLi = document.createElement('li');
-    //             errorLi.textContent = 'Zip Code must be a series of 5 or more numbers.';
-    //             errorLi.style.display = "list-item";
-    //             errorDivF1.appendChild(errorLi);
-    //             break;
-    //             }
-    //         }
-    //     }   
-    //     event.preventDefault(); // keeps the submit input from refreshing the page and clearing the error messages
-    // });
-
-    //------------------------------------------------------------------------//
-    //------------------------ FORM 2 VALIDATION (END) -----------------------//
-    //------------------------------------------------------------------------//
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// "Required fields must have a value that is not empty or whitespace."
-// "Numeric fields must be a series of numbers."
-
-// "Required_size field lengths must exactly match the minlength attribute of that field."
-/*
-const regexObject = /^words$/  >>> literal, use when you know what it should be
-const regexObject = new RegExp("^word$")   >>> use for dynamic input
-
-    test()
-    replace()
-    regex.test(testString) >>> returns true or false
-    string.replace(regex,replacementString)
- 
-    const string1 = 'corndog'
-    string1.replace(regex, "hot") >>> returns "hotdog"
-
-    flags: i (case insensitive), g (global, multiple instances), m (multiline)
-        >>> add to last slash of regex
-        i.e.
-        'LION'.replace(\lion\i, 'mouse'); >>> mouse
-
-
-
-        function showOrHideTip(show, element) {
-  // show element when show is true, hide when false
-  if (show) {
-    element.style.display = "inherit";
-  } else {
-    element.style.display = "none";
-  }
-}
-
-function createListener(validator) {
-  return e => {
-    const text = e.target.value;
-    const valid = validator(text);
-    const showTip = text !== "" && !valid;
-    const tooltip = e.target.nextElementSibling;
-    showOrHideTip(showTip, tooltip);
-  };
-}
-*/
-
-
-
-
-//https://html.form.guide/snippets/javascript-form-validation-using-regular-expression.html\
-// REGEX: https://teamtreehouse.com/library/using-wildcard-characters-2
-// https://teamtreehouse.com/library/using-regular-expressions-in-javascript
-//https://teamtreehouse.com/library/validating-a-username
-//https://teamtreehouse.com/library/using-replace-with-captured-groups
-
-/* function validate(){
-  var phoneNumber = document.getElementById('phone-number').value;
-  var postalCode = document.getElementById('postal-code').value;
-  var phoneRGEX = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/;
-  var postalRGEX = /^[A-Z]{1,2}[0-9]{1,2} ?[0-9][A-Z]{2}$/i;
-  var phoneResult = phoneRGEX.test(phoneNumber);
-  var postalResult = postalRGEX.test(postalCode);
-  if(phoneResult == false)
-  {
-    alert('Please enter a valid phone number');
-    return false;
-  }
-
-  if(postalResult == false)
-  {
-    alert('Please enter a valid postal number');
-    return false;
-  }
-
-  return true;
-}
-
-
-
-
-   let firstName = formDiv[0];
-    let lastName = formDiv[1];
-    let userName = formDiv[2];
-    let password = formDiv[3];
-    let zipCode = formDiv[4];
-    let employeeID = formDiv[5];
-        
-        console.log(firstName.value);
-        console.log(lastName.value);
-        console.log(userName.value);
-        console.log(password.value);
-        console.log(zipCode.value);
-        console.log(employeeID.value);
-
-
-    var el = document.querySelector("#container > .menu > li > .submenu > li");
-    el.onclick = function what_to_do(){
-    var theText = this.innerHTML;
-    alert(theText);
-    }
-
-*/
