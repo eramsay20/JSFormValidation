@@ -142,13 +142,13 @@ function isValidPhone (phone) {
 //------------------------ FORM 1 VALIDATION (START) ---------------------//
 //------------------------------------------------------------------------//
 
-const validateF1 = document.querySelectorAll('input[name="submitBtn"]')[0].addEventListener('click', (event) => {
+const validateF1 = document.querySelectorAll('input[name="submitBtn"]')[1].addEventListener('click', (event) => {
     let submitInput = event.target;   // use these variables to transverse the DOM
     let submitDiv = submitInput.parentNode;
     let formDiv = submitDiv.parentNode; 
     let errorDivF1 = formDiv.previousElementSibling; // location to display error messages
     // let allRequired = formDiv.querySelectorAll('input'); // input array used to cycle through each input
-    debugger;
+
     let allRequired = formDiv.getElementsByClassName('required');
     console.log(allRequired);
     let allNonRequired = formDiv.querySelectorAll('input:not(.required)');
@@ -181,6 +181,8 @@ const validateF1 = document.querySelectorAll('input[name="submitBtn"]')[0].addEv
             console.log(inputValue);
             let inputValueParent = allRequired[i];
             console.log(inputValueParent);
+            let requiredLength = parseFloat(inputValueParent.getAttribute('minlength'));
+            console.log(requiredLength);
           
 
             // case 1, empty
@@ -214,48 +216,118 @@ const validateF1 = document.querySelectorAll('input[name="submitBtn"]')[0].addEv
                     createErrorLi(msgUserLength);
                     break;
                 }
-        }
+            }
             // case 5, date
             else if (allRequired[i].classList.contains('date')
             && isValidDate(inputValue) == false) { 
             
             createErrorLi(msgDate);
             break;
-           }
+            }
             // case 6, phone
             else if (allRequired[i].classList.contains('phone')
             && isValidPhone(inputValue) == false) { 
             
             createErrorLi(msgPhone);
             break;
-           }
-        }
-    }; 
-    const validateRequiredLength = function () { 
-        debugger;
-        for (i=0; i<(allNonRequired.length); i++) { // loop through all inputs for the given form
-            let inputValue = allNonRequired[i].value;
-            let inputValueParent = allNonRequired[i];          
-            
-            // if not empty... 
-            if(isEmptySpace(inputValue) == false 
-            && errorDivF1.lastElementChild == null) { 
-                let requiredLength = parseFloat(inputValueParent.getAttribute('minlength'));
-                console.log(requiredLength);
-                console.log(isNaN(requiredLength));
-
-                // check if 'minlength' attribute exists and validate exact match in length
-                if (isNaN(requiredLength) == false &&
-                isValidSize(inputValue, requiredLength) == false) {
-                    createErrorLi(msgSize);
-                    break;
-                }
-                // && allRequired[i].classList.contains('required_list')==false 
+            }
+            // case 7, minlength && required
+            else if (isNaN(requiredLength) == false &&
+            isValidSize(inputValue, requiredLength) == false) {
+                createErrorLi(msgSize);
+                break;
             }
         }
     }; 
+    const validateNonRequired = function () { /// REFACTORING FUNCTION INTO TWO PARTS; REQUIRED vs NON-REQUIRED ********
+        debugger;
+        for (i=0; i<(allNonRequired.length); i++) { // loop through all inputs for the given form
+            let inputValue = allNonRequired[i].value;
+            console.log(inputValue);
+            let inputValueParent = allNonRequired[i];
+            console.log(inputValueParent);
+            let requiredLength = parseFloat(inputValueParent.getAttribute('minlength'));
+            console.log(requiredLength);
+
+            // check if other errors resolved first before validating non-required
+            if (errorDivF1.lastElementChild !== null){  
+                break;
+            }   
+
+            // case 1, alphabetic
+            else if (inputValueParent.classList.contains('alphabetic')
+                && isValidAlphabetic(inputValue) == false) { 
+        
+                createErrorLi(msgAlphabetic); 
+                break;
+            }
+
+            // case 2, numeric
+            else if (inputValueParent.classList.contains('numeric')
+                && isValidNumeric(inputValue) == false) { 
+                
+                createErrorLi(msgNumeric);
+                break;
+            }
+            // case 3, username === alphanumeric
+            else if (inputValueParent.classList.contains('username')) {
+                if(isValidAlphaNumeric(inputValue) == false) { 
+                    createErrorLi(msgUser);
+                    break;
+                }
+                if(inputValue.length < 8) { 
+                    createErrorLi(msgUserLength);
+                    break;
+                }
+            }
+            // case 4, date
+            else if (inputValueParent.classList.contains('date')
+            && isValidDate(inputValue) == false) { 
+            
+            createErrorLi(msgDate);
+            break;
+            }
+            // case 5, phone
+            else if (inputValueParent.classList.contains('phone')
+            && isValidPhone(inputValue) == false) { 
+            
+            createErrorLi(msgPhone);
+            break;
+            }
+            // case 6, minlength
+            else if (isNaN(requiredLength) == false &&
+            isValidSize(inputValue, requiredLength) == false) {
+                createErrorLi(msgSize);
+                break;
+            }
+        }
+    }; 
+
+    // const validateRequiredLength = function () { 
+    //     debugger;
+    //     for (i=0; i<(allNonRequired.length); i++) { // loop through all inputs for the given form
+    //         let inputValue = allNonRequired[i].value;
+    //         let inputValueParent = allNonRequired[i]; 
+    //         let requiredLength = parseFloat(inputValueParent.getAttribute('minlength'));         
+            
+    //         // if not empty... 
+    //         if(isEmptySpace(inputValue) == false 
+    //         && errorDivF1.lastElementChild == null) { 
+    //             console.log(requiredLength);
+    //             console.log(isNaN(requiredLength));
+
+    //             // check if 'minlength' attribute exists and validate exact match in length
+    //             if (isNaN(requiredLength) == false &&
+    //             isValidSize(inputValue, requiredLength) == false) {
+    //                 createErrorLi(msgSize);
+    //                 break;
+    //             }
+    //             // && allRequired[i].classList.contains('required_list')==false 
+    //         }
+    //     }
+    // }; 
     validateRequired();
-    validateRequiredLength();
+    validateNonRequired();
     event.preventDefault(); // keeps the submit input from refreshing the page and clearing the error messages
 });
     //------------------------------------------------------------------------//
