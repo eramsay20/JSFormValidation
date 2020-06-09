@@ -153,12 +153,14 @@ const validateF1 = document.addEventListener('click', (event) => {
     let clickTarget = event.target; // locate the target of click function
     if(clickTarget.name == "submitBtn"){ // if click on submitBtn input... proceed to validation
 
+        // DOM traversal start // 
     let submitDiv = clickTarget.parentNode; // use these variables to transverse the DOM
     let formDiv = submitDiv.parentNode; // use these variables to transverse the DOM
-
     let errorDivF1 = formDiv.previousElementSibling; // location to display error messages, just before form div
-    let allRequired = formDiv.getElementsByClassName('required'); // all required fields
-    let allNonRequired = formDiv.querySelectorAll('input:not(.required)'); // all non-required fields
+        // DOM traversal end // 
+
+    let allRequired = formDiv.getElementsByClassName('required'); // get all required fields
+    let allNonRequired = formDiv.querySelectorAll('input:not(.required)'); // get all non-required fields
 
     /*---------------------------------MESSAGE BANK---------------------------------------*/
     const msgEmpty = "Required fields must have a value that is not empty or whitespace.";
@@ -185,9 +187,9 @@ const validateF1 = document.addEventListener('click', (event) => {
 
     const validateRequired = function () { // function to validate all required inputs first
         for (i=0; i<(allRequired.length); i++) { // loop through all required inputs for the given form
-            let inputValue = allRequired[i].value;
-            let inputValueParent = allRequired[i];
-            let requiredLength = parseFloat(inputValueParent.getAttribute('minlength'));
+            let inputValue = allRequired[i].value; // store input value
+            let inputValueParent = allRequired[i]; // store input parent to collect attribute data
+            let requiredLength = parseFloat(inputValueParent.getAttribute('minlength')); // store minlength data if applicable
 
             // case 1, empty
             if(isEmptySpace(inputValue) == true) {          
@@ -208,7 +210,7 @@ const validateF1 = document.addEventListener('click', (event) => {
                     createErrorLi(msgNumeric);
                     break;
             }
-             // case 4, username === alphanumeric
+             // case 4, username === alphanumeric; minlength 8
              else if (allRequired[i].classList.contains('username')) {
                 if(isValidAlphaNumeric(inputValue) == false) { 
                     createErrorLi(msgUser);
@@ -219,25 +221,25 @@ const validateF1 = document.addEventListener('click', (event) => {
                     break;
                 }
             }
-             // case 5, password
+             // case 5, password contains upper, lower, number & special (min 4)
              else if (allRequired[i].classList.contains('password')
                 && isValidPassword(inputValue) == false) { 
                     createErrorLi(msgPassword);
                     break;
              }
-            // case 6, date
+            // case 6, date in correct format XX/XX/XXXX
             else if (allRequired[i].classList.contains('date')
                 && isValidDate(inputValue) == false) { 
                     createErrorLi(msgDate);
                     break;
             }
-            // case 7, phone
+            // case 7, phone in correct format XXX-XXX-XXXX
             else if (allRequired[i].classList.contains('phone')
             && isValidPhone(inputValue) == false) { 
                 createErrorLi(msgPhone);
                 break;
             }
-            // case 8, minlength && required
+            // case 8, minlength exists && required field
             else if (isNaN(requiredLength) == false 
                 && isValidSize(inputValue, requiredLength) == false) {
                     createErrorLi(msgSize);
@@ -245,8 +247,8 @@ const validateF1 = document.addEventListener('click', (event) => {
             }
         }
     }; 
-    const validateNonRequired = function () { /// REFACTORING FUNCTION INTO TWO PARTS; REQUIRED vs NON-REQUIRED ********
-        for (i=0; i<(allNonRequired.length); i++) { // loop through all inputs for the given form
+    const validateNonRequired = function () { 
+        for (i=0; i<(allNonRequired.length); i++) { // loop through all non-required inputs for the given form
             let inputValue = allNonRequired[i].value;
             let inputValueParent = allNonRequired[i];
             let requiredLength = parseFloat(inputValueParent.getAttribute('minlength'));
@@ -268,7 +270,7 @@ const validateF1 = document.addEventListener('click', (event) => {
                     createErrorLi(msgNumeric);
                     break;
             }
-            // case 3, username === alphanumeric
+            // case 3, username === alphanumeric; minlength 8
             else if (inputValueParent.classList.contains('username')) {
                 if(isValidAlphaNumeric(inputValue) == false) { 
                     createErrorLi(msgUser);
@@ -279,19 +281,19 @@ const validateF1 = document.addEventListener('click', (event) => {
                     break;
                 }
             }
-             // case 4, password
+             // case 4, password contains upper, lower, number & special (min 4)
              else if (inputValueParent.classList.contains('password')
                 && isValidPassword(inputValue) == false) { 
                     createErrorLi(msgPassword);
                     break;
              }
-            // case 5, date
+            // case 5, date in correct format XX/XX/XXXX
             else if (inputValueParent.classList.contains('date')
                 && isValidDate(inputValue) == false) {
                     createErrorLi(msgDate);
                     break;
             }
-            // case 6, phone
+            // case 6, phone in correct format XXX-XXX-XXXX
             else if (inputValueParent.classList.contains('phone')
                 && isValidPhone(inputValue) == false) { 
                     createErrorLi(msgPhone);
