@@ -194,56 +194,56 @@ const validateF1 = document.addEventListener('click', (event) => {
             // case 1, empty
             if(isEmptySpace(inputValue) == true) {          
                     createErrorLi(msgEmpty);         
-                    break;
+                    // break;
             }
 
             // case 2, alphabetic
             else if (allRequired[i].classList.contains('alphabetic')
                 && isValidAlphabetic(inputValue) == false) { 
                     createErrorLi(msgAlphabetic); 
-                    break;
+                    // break;
             }
 
             // case 3, numeric
             else if (allRequired[i].classList.contains('numeric')
                 && isValidNumeric(inputValue) == false) { 
                     createErrorLi(msgNumeric);
-                    break;
+                    // break;
             }
              // case 4, username === alphanumeric; minlength 8
              else if (allRequired[i].classList.contains('username')) {
                 if(isValidAlphaNumeric(inputValue) == false) { 
                     createErrorLi(msgUser);
-                    break;
+                    // break;
                 }
                 if(inputValue.length < 8) { 
                     createErrorLi(msgUserLength);
-                    break;
+                    // break;
                 }
             }
              // case 5, password contains upper, lower, number & special (min 4)
              else if (allRequired[i].classList.contains('password')
                 && isValidPassword(inputValue) == false) { 
                     createErrorLi(msgPassword);
-                    break;
+                    // break;
              }
             // case 6, date in correct format XX/XX/XXXX
             else if (allRequired[i].classList.contains('date')
                 && isValidDate(inputValue) == false) { 
                     createErrorLi(msgDate);
-                    break;
+                    // break;
             }
             // case 7, phone in correct format XXX-XXX-XXXX
             else if (allRequired[i].classList.contains('phone')
             && isValidPhone(inputValue) == false) { 
                 createErrorLi(msgPhone);
-                break;
+                // break;
             }
             // case 8, minlength exists && required field
             else if (isNaN(requiredLength) == false 
                 && isValidSize(inputValue, requiredLength) == false) {
                     createErrorLi(msgSize);
-                    break;
+                    // break;
             }
         }
     }; 
@@ -254,56 +254,56 @@ const validateF1 = document.addEventListener('click', (event) => {
             let requiredLength = parseFloat(inputValueParent.getAttribute('minlength'));
 
             if (errorDivF1.lastElementChild !== null){  // check if other errors resolved first before validating non-required
-                break;
+                // break;
             }   
 
             // case 1, alphabetic
             else if (inputValueParent.classList.contains('alphabetic')
                 && isValidAlphabetic(inputValue) == false) { 
                     createErrorLi(msgAlphabetic); 
-                    break;
+                    // break;
             }
 
             // case 2, numeric
             else if (inputValueParent.classList.contains('numeric')
                 && isValidNumeric(inputValue) == false) { 
                     createErrorLi(msgNumeric);
-                    break;
+                    // break;
             }
             // case 3, username === alphanumeric; minlength 8
             else if (inputValueParent.classList.contains('username')) {
                 if(isValidAlphaNumeric(inputValue) == false) { 
                     createErrorLi(msgUser);
-                    break;
+                    // break;
                 }
                 if(inputValue.length < 8) { 
                     createErrorLi(msgUserLength);
-                    break;
+                    // break;
                 }
             }
              // case 4, password contains upper, lower, number & special (min 4)
              else if (inputValueParent.classList.contains('password')
                 && isValidPassword(inputValue) == false) { 
                     createErrorLi(msgPassword);
-                    break;
+                    // break;
              }
             // case 5, date in correct format XX/XX/XXXX
             else if (inputValueParent.classList.contains('date')
                 && isValidDate(inputValue) == false) {
                     createErrorLi(msgDate);
-                    break;
+                    // break;
             }
             // case 6, phone in correct format XXX-XXX-XXXX
             else if (inputValueParent.classList.contains('phone')
                 && isValidPhone(inputValue) == false) { 
                     createErrorLi(msgPhone);
-                    break;
+                    // break;
             }
             // case 7, minlength
             else if (isNaN(requiredLength) == false 
                 && isValidSize(inputValue, requiredLength) == false) {
                     createErrorLi(msgSize);
-                    break;
+                    // break;
             }
         }
     }; 
