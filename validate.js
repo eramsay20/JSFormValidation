@@ -158,9 +158,10 @@ const validateF1 = document.querySelectorAll('input[name="submitBtn"]')[0].addEv
     const msgAlphabetic = 'Alphabetic fields must only use alphabetic characters.';
     const msgNumeric = 'Numeric fields must be a series of numbers.';
     const msgSize = "Required_size field lengths must exactly match the minlength attribute of that field.";
-    const msgUser = "Username fields must contain only alphanumeric characters."
-    const msgDate = "Date fields must match the format of XX/XX/XXXX." // not yet used
-    const msgPhone = "Phone fields must match the format of XXX-XXX-XXXX."
+    const msgUser = "Username fields must contain only alphanumeric characters.";
+    const msgUserLength = "Username fields must contain at least 8 characters.";
+    const msgDate = "Date fields must match the format of XX/XX/XXXX."; // not yet used
+    const msgPhone = "Phone fields must match the format of XXX-XXX-XXXX.";
 
     const createErrorLi = function (msgType) { // create error message upon failed validation
         let errorLi = document.createElement('li');
@@ -204,12 +205,16 @@ const validateF1 = document.querySelectorAll('input[name="submitBtn"]')[0].addEv
                 break;
             }
              // case 4, username === alphanumeric
-             else if (allRequired[i].classList.contains('username')
-             && isValidAlphaNumeric(inputValue) == false) { 
-             
-             createErrorLi(msgUser);
-             break;
-            }
+             else if (allRequired[i].classList.contains('username')) {
+                if(isValidAlphaNumeric(inputValue) == false) { 
+                    createErrorLi(msgUser);
+                    break;
+                }
+                if(inputValue.length < 8) { 
+                    createErrorLi(msgUserLength);
+                    break;
+                }
+        }
             // case 5, date
             else if (allRequired[i].classList.contains('date')
             && isValidDate(inputValue) == false) { 
