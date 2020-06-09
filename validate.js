@@ -121,6 +121,12 @@ function isValidAlphaNumeric (alphaNum) {
     return regexAlphaNumeric.test(alphaNum); 
 };
 
+function isValidPassword (password) {
+    const regexPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{4,}$/; 
+    return regexPassword.test(password); 
+};
+//https://stackoverflow.com/questions/14850553/javascript-regex-for-password-containing-at-least-8-characters-1-number-1-uppe/14850765
+//https://www.w3resource.com/javascript/form/password-validation.php   
 function isValidZip (zip) {
     const regexZip = /^[0-9]{5,}$/; // 5 or more numbers only
     return regexZip.test(zip);
@@ -162,6 +168,7 @@ const validateF1 = document.addEventListener('click', (event) => {
     const msgSize = "Required_size field lengths must exactly match the minlength attribute of that field.";
     const msgUser = "Username fields must contain only alphanumeric characters.";
     const msgUserLength = "Username fields must contain at least 8 characters.";
+    const msgPassword = "Password fields must contain one or more of each of the following types: uppercase letters, lowercase letters, numbers, special characters.";
     const msgDate = "Date fields must match the format of XX/XX/XXXX."; // not yet used
     const msgPhone = "Phone fields must match the format of XXX-XXX-XXXX.";
 
@@ -219,21 +226,28 @@ const validateF1 = document.addEventListener('click', (event) => {
                     break;
                 }
             }
-            // case 5, date
+             // case 5, password
+             else if (allRequired[i].classList.contains('password')
+             && isValidPassword(inputValue) == false) { 
+             
+             createErrorLi(msgPassword);
+             break;
+             }
+            // case 6, date
             else if (allRequired[i].classList.contains('date')
             && isValidDate(inputValue) == false) { 
             
             createErrorLi(msgDate);
             break;
             }
-            // case 6, phone
+            // case 7, phone
             else if (allRequired[i].classList.contains('phone')
             && isValidPhone(inputValue) == false) { 
             
             createErrorLi(msgPhone);
             break;
             }
-            // case 7, minlength && required
+            // case 8, minlength && required
             else if (isNaN(requiredLength) == false &&
             isValidSize(inputValue, requiredLength) == false) {
                 createErrorLi(msgSize);
@@ -282,21 +296,28 @@ const validateF1 = document.addEventListener('click', (event) => {
                     break;
                 }
             }
-            // case 4, date
+             // case 4, password
+             else if (inputValueParent.classList.contains('password')
+             && isValidPassword(inputValue) == false) { 
+             
+             createErrorLi(msgPassword);
+             break;
+             }
+            // case 5, date
             else if (inputValueParent.classList.contains('date')
             && isValidDate(inputValue) == false) { 
             
             createErrorLi(msgDate);
             break;
             }
-            // case 5, phone
+            // case 6, phone
             else if (inputValueParent.classList.contains('phone')
             && isValidPhone(inputValue) == false) { 
             
             createErrorLi(msgPhone);
             break;
             }
-            // case 6, minlength
+            // case 7, minlength
             else if (isNaN(requiredLength) == false &&
             isValidSize(inputValue, requiredLength) == false) {
                 createErrorLi(msgSize);
